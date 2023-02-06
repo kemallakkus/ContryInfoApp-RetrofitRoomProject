@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- layout tag i olmalı databinding için -->
+<!-- build.gradle içinde databinding in enable edilmesi lazım -->
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <!-- değişken adına istediğimizi veririz -->
+        <!-- deişken tipi için modelimizdeki ismi önce package name imizi belirtip verebiliriz adım adım -->
+
+        <variable
+
+            name="country"
+            type="com.kemalakkus.countrylistapp.model.Country"
+
+            />
+
+        <!-- yeni bir variable tanımlıcaz. type olarak ta CountryClickListener verecez -->
+
+        <variable
+
+            name="listener"
+            type="com.kemalakkus.countrylistapp.adapter.CountryClickListener"
+
+            />
+
+    </data>
+
+    <!-- şimdi tıklandığındabize bir view döndürmesini istiyoruz. Bunu yapabilmek için onClick metodunu tanımlamamız lazım LinearLayout içerisinde.
+         o yüzden LinearLayout içindeki 3. satırdakini yazdık. listener::onCountryClicked ne demek : listener arayüzünden onCountryClicked fonk.nu
+         ile işlemimi yap demek. Bundan sonraki işlemleri adapter de yapmamız gerekecek   -->
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:onClick="@{listener::onCountryClicked}"
+    android:orientation="horizontal"
+    >
+
+    <!-- Görünmeyen bir text view oluşturduk. Adapter de son fonk. da action u verirken bizden uuid istedi ama yoktu hiç biryerde
+         Biz de onu layout ta böyle tanımlamış olduk -->
+
+
+    <TextView
+        android:id="@+id/countryUuidText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@{String.valueOf(country.uuid)}">
+
+    </TextView>
+
+    <!--  utilde oluşturduğumuz fonks. buraya geldi android:downloadUrl olarak. imageUrl ismi de modelimizde öyle tanımlandığı için  -->
+    <!-- artık adapter de holder üzerinden image a ulaşmamıza gerek kalmadı. xml de bu iş hallolmuş oldu. -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:padding="3dp"
+        android:downloadUrl="@{country.imageUrl}"
+        android:src="@mipmap/ic_launcher_round"
+        >
+
+    </ImageView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="3"
+        android:gravity="center_vertical"
+        >
+
+        <!-- artık databinding yaptığımız için text kısmında Name ismini kadırıp @{country.} yazdığımızda noktadan sonra değişken isimlerimiz otomatik olarak geliyor -->
+
+
+        <TextView
+
+
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{country.countryName}"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="5dp"
+            >
+        </TextView>
+
+        <!-- artık databinding yaptığımız için text kısmında Region ismini kadırıp @{country.} yazdığımızda noktadan sonra değişken isimlerimiz otomatik olarak geliyor -->
+
+        <TextView
+            android:id="@+id/region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{country.countryRegion}"
+            android:textSize="16sp"
+            android:padding="5dp"
+            >
+        </TextView>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+</layout>
